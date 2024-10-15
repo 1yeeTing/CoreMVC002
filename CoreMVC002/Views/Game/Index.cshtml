@@ -1,0 +1,37 @@
+﻿@model CoreMVC002.Models.XAXBEngine
+
+
+<h2>1A2B猜數字遊戲</h2>
+
+@using (Html.BeginForm("Guess", "Game", FormMethod.Post))
+{
+    <label for="guess">請輸入你的猜測：</label>
+    <input type="text" id="guess" name="Guess" value="@Model.Guess" />
+    <input type="submit" value="猜！" />
+    @Html.ValidationMessageFor(m => m.Guess, "", new { @class = "text-danger" })
+}
+
+@if (TempData["GameOver"]?.ToString() == "true")
+
+{
+    <p>@TempData["PlayAgainMessage"]</p>
+    <form method="get" action="/Game/Index">
+        <input type="submit" value="重新開始遊戲" />
+    </form>
+}
+
+else
+
+{
+    <p>猜測結果：@Model.Result</p>
+    <p>總共猜測次數：@Model.GuessCount</p>
+
+    <h3>歷史紀錄：</h3>
+    <ul>
+        @foreach (var history in Model.GuessHistory)
+
+        {
+            <li>@history</li>
+        }
+    </ul>
+}
